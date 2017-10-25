@@ -49,7 +49,7 @@ if(!empty($idLastTweet)){
 $url = 'https://api.twitter.com/1.1/search/tweets.json';
 /*Acá en esta linea toca mandarle el nextId para que traiga los tweets después del último traido*/
 //$getfield = '?q='.$queryF.'&l=es&src=typd';
-$getfield = '?q=avianca AND pilotos';
+$getfield = '?q=Avianca AND '.$destino;
 //printVar($getfield);
 //die();
 $requestMethod = 'GET';
