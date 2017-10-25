@@ -49,7 +49,7 @@ if(!empty($idLastTweet)){
 $url = 'https://api.twitter.com/1.1/search/tweets.json';
 /*Acá en esta linea toca mandarle el nextId para que traiga los tweets después del último traido*/
 //$getfield = '?q='.$queryF.'&l=es&src=typd';
-$getfield = '?q='.$queryF;
+$getfield = '?q=avianca AND pilotos';
 //printVar($getfield);
 //die();
 $requestMethod = 'GET';
@@ -80,6 +80,7 @@ for($i=0; $i<$conteoTW;$i++){
         $result=$alertMongo->insertTweet($campos);
         $contador=$contador+1;
         $alertMongo->printVar($result,"Guarda");
+        echo $tweet[$i]->text;
     }else{
         $alertMongo->printVar("Ya existe");
     }
