@@ -20,7 +20,7 @@ class AlertMongo{
     function insertTweet($campos) {
         //printVar($campos);
         //die();
-        $mongo = new MongoDB\Driver\Manager('mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut');
+        $mongo = new MongoDB\Driver\Manager();
         $bulk = new MongoDB\Driver\BulkWrite;
         $bulk->insert([
             "idText" => (string)$campos['idText'],
@@ -49,7 +49,7 @@ class AlertMongo{
     // Get tweet into collection
     function getTweet($idStr) {
         //printVar($idStr);
-        $mongo = new MongoDB\Driver\Manager('mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut');
+        $mongo = new MongoDB\Driver\Manager();
         $query = new MongoDB\Driver\Query(['idText' => $idStr], []);
         $cursor = $mongo->executeQuery('callaut.tweet', $query);
         $posts = [];
@@ -66,7 +66,7 @@ class AlertMongo{
     // Filtro de Palabras 
     function getPalabras() {
         //printVar($idStr);
-        $mongo = new MongoDB\Driver\Manager('mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut');
+        $mongo = new MongoDB\Driver\Manager();
         $query = new MongoDB\Driver\Query([], []);
         $cursor = $mongo->executeQuery('callaut.palabras', $query);
 
@@ -86,7 +86,7 @@ class AlertMongo{
     // Get word for search
     function getTWord() {
         //printVar($idStr);
-        $mongo = new MongoDB\Driver\Manager('mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut');
+        $mongo = new MongoDB\Driver\Manager('mongodb://localhost:27017');
         $query = new MongoDB\Driver\Query([], []);
         $cursor = $mongo->executeQuery('callaut.av_search', $query);
         $posts = [];
@@ -96,13 +96,16 @@ class AlertMongo{
             array_push($posts, json_decode(MongoDB\BSON\toJSON(MongoDB\BSON\fromPHP($document))));
             
         }
+        /*$posts = [];
+        array_push($posts,'derribo');*/
+        //printVar($posts);
         return $posts;
         
     }
         
     /*Función para mongo */
     function getTweetMongo($texto) {
-        $mongo = new MongoDB\Driver\Manager('mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut');
+        $mongo = new MongoDB\Driver\Manager();
         //$filter=['texto' => new MongoDB\BSON\Regex($texto,'i'),'cuentaInsert'=> ['$gte' => $lastSend]];
         $filter=['texto' => new MongoDB\BSON\Regex($texto,'i'),'enviado'=> 'N'];
         $options=[
@@ -123,7 +126,7 @@ class AlertMongo{
     //Función para insertar el ùltimo tweet enviado
     function insertLastTweetSend($campos){
         //$this->printVar($campos['cuentaInsert']);
-       $mongo = new MongoDB\Driver\Manager('mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut');
+       $mongo = new MongoDB\Driver\Manager();
         $filter=['lastSend'=>$campos['cuentaInsert']];
         $options=['limit' => 1];
         $query = new MongoDB\Driver\Query($filter,$options);
@@ -158,7 +161,7 @@ class AlertMongo{
     
     //Función para obtener el último _id de antes de agregar nuevos tweets
     function getLastIdTweet(){
-        $mongo = new MongoDB\Driver\Manager('mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut');
+        $mongo = new MongoDB\Driver\Manager();
         $options = [
             'sort' => ['cuentaInsert' => -1],
             'limit' => 1,
@@ -181,7 +184,7 @@ class AlertMongo{
     
     
     function searhLastIdTweet(){
-        $mongo = new MongoDB\Driver\Manager('mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut');
+        $mongo = new MongoDB\Driver\Manager();
         $options = [
             'sort' => ['_id' => -1],
             'limit' => 1,
@@ -204,7 +207,7 @@ class AlertMongo{
     
     /*Actualiza los tweets enviados*/
     function updateTweetSend($idSend){
-        $mongo = new MongoDB\Driver\Manager('mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut');
+        $mongo = new MongoDB\Driver\Manager();
         $bulk = new MongoDB\Driver\BulkWrite;
         $bulk->update(
             ["idText" => (string)$idSend,'enviado'=>'N'],
