@@ -36,7 +36,8 @@ class Twitter:
 		ahora = datetime.now()
 		fecha2 = "%Y-%m-%d %H:%M:%S"
 		fecha = ahora.strftime(fecha2)
-		tw = {"idText":idText,"texto":texto,"idUsuario":idUsuario,"arrobaUsuario":arrobaUsuario,"followers":followers,"retweet":retweet,"favorite":favorite,"cuentaInsert":cuentaInsert,"enviado":enviado,"fechaCreacion":fechaCreacion,"fecha":fecha}         
+		fechaEnvio = ""
+		tw = {"idText":idText,"texto":texto,"idUsuario":idUsuario,"arrobaUsuario":arrobaUsuario,"followers":followers,"retweet":retweet,"favorite":favorite,"cuentaInsert":cuentaInsert,"enviado":enviado,"fechaCreacion":fechaCreacion,"fecha":fecha,"fechaEnvio":fechaEnvio}         
 		collection.insert(tw)
 		print("Se imprimio la info correctamente")
 	def getTweet(self, codigo):
@@ -45,6 +46,22 @@ class Twitter:
 		collection = db.twitterBusqueda
 		usuarios = collection.find({'idText': codigo }).count()
 		return usuarios
+	def getUltTweets(self):
+		mongo = MongoClient()
+		db = mongo.callaut
+		collection = db.twitterBusqueda
+		usuarios = collection.find({'enviado': 'N'})
+		return usuarios
+	def actualizarTwitter(self, codigo, enviado):
+		mongo = MongoClient()
+		db = mongo.callaut
+		collection = db.twitterBusqueda
+		idText = codigo
+		enviado = enviado 
+		ahora = datetime.now()
+		fecha2 = "%Y-%m-%d %H:%M:%S"
+		fechaEnvio = ahora.strftime(fecha2)
+		collection.update({"idText":idText,"enviado":enviado},{"$set":{"enviado":"S","fechaEnvio":fechaEnvio}})
 	def getLastIdTweet(self):
 		mongo = MongoClient()
 		db = mongo.callaut
@@ -54,7 +71,11 @@ class Twitter:
 			return usuario['cuentaInsert']
 
 D = Twitter()
-#D.getLastIdTweet()
+"""
+resul = D.getUltTweets()
+for val in resul:
+	print ( "idTweet:"+val['idText']+" ~|~ @"+val['arrobaUsuario']+" | Followers "+str(val['followers'])+" | Favs "+str(val['favorite'])+" | Retweets "+str(val['retweet'])+" | Tweet "+val['texto'] )	
+	D.actualizarTwitter(val['idText'],val['enviado']) """
 D.traerTwitter('pilotos')
 
 
