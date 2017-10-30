@@ -2,6 +2,8 @@
 import telebot
 from telebot import types
 from TwitterAPI import TwitterAPI
+from datetime import datetime, date, time, timedelta
+from pymongo import MongoClient
 
 TOKEN = '461778834:AAHQw5zLVx5PujytNHHP1KbLqbf6F5YNI2E' #Ponemos nuestro TOKEN generado con el @BotFather
 mi_bot = telebot.TeleBot(TOKEN) #Creamos nuestra instancia "mi_bot" a partir de ese TOKEN
@@ -16,12 +18,13 @@ class Twitter:
         'WHYKEgHORfhEfHD4LgPM4LDgCbtEbUJTKwZCn8GQOQp1x')
         r = api.request('search/tweets', {'q':'Avianca AND ' + texto})
         contador = 1
+        TP = Twitter()
         for item in r:
-            existe = D.getTweet(item['id_str'])
+            existe = TP.getTweet(item['id_str'])
             if existe == 0:
-                contador = D.getLastIdTweet()
+                contador = TP.getLastIdTweet()
                 contador = contador + 1
-                D.insertarTwitter(item['id_str'], item['text'], item['user']['id_str'], item['user']['screen_name'], item['user']['followers_count'], item['retweet_count'], item['favorite_count'], item['created_at'], contador)
+                TP.insertarTwitter(item['id_str'], item['text'], item['user']['id_str'], item['user']['screen_name'], item['user']['followers_count'], item['retweet_count'], item['favorite_count'], item['created_at'], contador)
     def insertarTwitter(self, codigo, texto, codUsuario, usuario, seguidores, rtweet, favoritos, fechaC, contador):
         mongo = MongoClient()
         db = mongo.callaut
