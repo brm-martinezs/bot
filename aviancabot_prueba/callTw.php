@@ -44,12 +44,12 @@ if(!empty($idLastTweet)){
 
 //$alertMongo->printVar($contador,'conteo');
 //die();         
-
+$destino = $argv[1];
 
 $url = 'https://api.twitter.com/1.1/search/tweets.json';
 /*Acá en esta linea toca mandarle el nextId para que traiga los tweets después del último traido*/
 //$getfield = '?q='.$queryF.'&l=es&src=typd';
-$getfield = '?q=Avianca AND '.$destino;
+$getfield = '?q=Avianca AND pilotos';
 //printVar($getfield);
 //die();
 $requestMethod = 'GET';
@@ -63,6 +63,7 @@ $responseJ=json_decode($response);
 $guardaT= array();
 //$alertMongo->printVar($responseJ->statuses);
 //die();
+$alertMongo->printVar($responseJ);
 $conteoTW=count($responseJ->statuses);
 $tweet=$responseJ->statuses;
 for($i=0; $i<$conteoTW;$i++){
