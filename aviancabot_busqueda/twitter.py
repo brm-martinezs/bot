@@ -30,6 +30,7 @@ class Twitter:
         favorite = favoritos
         cuentaInsert = contador
         fechaCreacion = fechaC
+        #enviado = 'N'
         ahora = datetime.now()
         fecha2 = "%Y-%m-%d %H:%M:%S"
         fecha = ahora.strftime(fecha2)
