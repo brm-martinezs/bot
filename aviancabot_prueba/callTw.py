@@ -13,6 +13,7 @@ class Twitter:
 		'WHYKEgHORfhEfHD4LgPM4LDgCbtEbUJTKwZCn8GQOQp1x')
 		r = api.request('search/tweets', {'q':'Avianca AND ' + texto})
 		contador = 1
+		D = Twitter()
 		for item in r:
 			existe = D.getTweet(item['id_str'])
 			if existe == 0:
@@ -70,13 +71,13 @@ class Twitter:
 		for usuario in usuarios:
 			return usuario['cuentaInsert']
 
-D = Twitter()
+#D = Twitter()
 """
 resul = D.getUltTweets()
 for val in resul:
 	print ( "idTweet:"+val['idText']+" ~|~ @"+val['arrobaUsuario']+" | Followers "+str(val['followers'])+" | Favs "+str(val['favorite'])+" | Retweets "+str(val['retweet'])+" | Tweet "+val['texto'] )	
 	D.actualizarTwitter(val['idText'],val['enviado']) """
-D.traerTwitter('pilotos')
+#D.traerTwitter('pilotos')
 
 
 
