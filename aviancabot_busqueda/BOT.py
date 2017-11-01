@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*- 
+import sys
+sys.path.append('class')
 import telebot
 from telebot import types
 from twitter import *
