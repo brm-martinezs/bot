@@ -18,7 +18,8 @@ class Twitter:
                 contador = contador + 1
                 TP.insertarTwitter(item['id_str'], item['text'], item['user']['id_str'], item['user']['screen_name'], item['user']['followers_count'], item['retweet_count'], item['favorite_count'], item['created_at'], contador)
     def insertarTwitter(self, codigo, texto, codUsuario, usuario, seguidores, rtweet, favoritos, fechaC, contador):
-        mongo = MongoClient()
+        connection="mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut"
+        mongo = MongoClient(connection)
         db = mongo.callaut
         collection = db.twitterBusqueda
         idText = codigo
@@ -43,19 +44,22 @@ class Twitter:
         collection.insert(tw)
         print("Se imprimio la info correctamente")
     def getTweet(self, codigo):
-        mongo = MongoClient()
+        connection="mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut"
+        mongo = MongoClient(connection)
         db = mongo.callaut
         collection = db.twitterBusqueda
         usuarios = collection.find({'idText': codigo }).count()
         return usuarios
     def getUltTweets(self):
-        mongo = MongoClient()
+        connection="mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut"
+        mongo = MongoClient(connection)
         db = mongo.callaut
         collection = db.twitterBusqueda
         usuarios = collection.find({'enviado': 'N'})
         return usuarios
     def actualizarTwitter(self, codigo, enviado):
-        mongo = MongoClient()
+        connection="mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut"
+        mongo = MongoClient(connection)
         db = mongo.callaut
         collection = db.twitterBusqueda
         idText = codigo
@@ -65,7 +69,8 @@ class Twitter:
         fechaEnvio = ahora.strftime(fecha2)
         collection.update({"idText":idText,"enviado":enviado},{"$set":{"enviado":"S","fechaEnvio":fechaEnvio}})
     def getLastIdTweet(self):
-        mongo = MongoClient()
+        connection="mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut"
+        mongo = MongoClient(connection)
         db = mongo.callaut
         collection = db.twitterBusqueda
         usuarios = collection.find().sort([('cuentaInsert',-1)]).limit(1)
