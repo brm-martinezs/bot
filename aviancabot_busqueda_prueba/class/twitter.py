@@ -34,7 +34,7 @@ class Twitter:
         ahora = datetime.now()
         fecha2 = "%Y-%m-%d %H:%M:%S"
         fecha = ahora.strftime(fecha2)
-        mensaje5a = texto.find("RT")
+        mensaje5a = texto.find("RT", 0, 2)
         if mensaje5a == -1:
             enviado = 'N'
         else:
