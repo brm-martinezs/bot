@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*- 
+import sys
+sys.path.append('class')
 import telebot
 from telebot import types
 from twitter import *
@@ -89,3 +91,5 @@ def alert_callback(call):
         mi_bot.send_message('-277422259',sendTexto)
         mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como naranja")
 
+mi_bot.set_update_listener(listener) #registrar la funcion listener
+mi_bot.polling()
