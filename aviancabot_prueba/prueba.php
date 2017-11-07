@@ -1,5 +1,5 @@
 <?php  
-$texto = "RT @gacv1985: @Avianca  estoy en el aeropuerto de santa Marta y me dicen que mi tiquete fue reembolsado y que no puedo viajar, yo nunca sol…";
+$texto = "RT @Avianca no me responde por una cancelacion que yo no hice pero tampoco me resuelve mi estadía ni regreso #abusivos";
 for($i=0;$i<2;$i++)
 {	$primerLetra = $texto[0];
 	$segundaLetra = $texto[1];
