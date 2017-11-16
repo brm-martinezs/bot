@@ -13,7 +13,7 @@ db=mongo.callaut
 #Se selecciona la conexión
 reportT = db.report_tweet
 
-TOKEN = '461778834:AAHQw5zLVx5PujytNHHP1KbLqbf6F5YNI2E' #Ponemos nuestro TOKEN generado con el @BotFather
+TOKEN = '262726886:AAE6vRg0RV2XdJ335j7m41PIOH506gJWmaU' #Ponemos nuestro TOKEN generado con el @BotFather
 mi_bot = telebot.TeleBot(TOKEN) #Creamos nuestra instancia "mi_bot" a partir de ese TOKEN
 
 def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
