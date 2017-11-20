@@ -32,6 +32,7 @@ foreach ($concidencias as $key => $value) {
     
 }
 
+/*
 $alertMongo2 = new AlertMongo();
 $palabras = $alertMongo2->getPalabras();
 foreach ($almacen as $key=>$val ){
@@ -51,4 +52,19 @@ foreach ($almacen as $key=>$val ){
 		echo "idTweet:$val->idText ~|~ @$val->arrobaUsuario | Followers $val->followers | Favs $val->favorite | Retweets $val->retweet | Tweet $val->texto"."°";
 	}else{
 	}
+}
+*/
+foreach ($almacen as $key=>$val ){
+  	
+  	for($i=0;$i<2;$i++)
+	{	$primerLetra = $val->texto[0];
+		$segundaLetra = $val->texto[1];
+	}
+	$esRetweet = $primerLetra.$segundaLetra;
+	if($esRetweet == 'RT'){
+	}else{
+		echo "idTweet:$val->idText ~|~ @$val->arrobaUsuario | Followers $val->followers | Favs $val->favorite | Retweets $val->retweet | Tweet $val->texto"."°";
+	}
+     
+
 }
