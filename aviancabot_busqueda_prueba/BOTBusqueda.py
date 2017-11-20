@@ -14,6 +14,7 @@ db=mongo.callaut
 reportT = db.report_tweet
 
 TOKEN = '262726886:AAE6vRg0RV2XdJ335j7m41PIOH506gJWmaU' #Ponemos nuestro TOKEN generado con el @BotFather
+#TOKEN = '461778834:AAHQw5zLVx5PujytNHHP1KbLqbf6F5YNI2E'
 mi_bot = telebot.TeleBot(TOKEN) #Creamos nuestra instancia "mi_bot" a partir de ese TOKEN
 
 def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
@@ -27,7 +28,8 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
             resul = D.getUltTweets()
             for val in resul:
                 existenTw = "1"
-                cadena = "idTweet:"+val['idText']+" ~|~ @"+val['arrobaUsuario']+" | Followers "+str(val['followers'])+" | Favs "+str(val['favorite'])+" | Retweets "+str(val['retweet'])+" | Tweet "+val['texto'] 
+                link = "https://twitter.com/"+val['arrobaUsuario']+"/status/"+val['idText']
+                cadena = "idTweet:"+val['idText']+" ~|~ @"+val['arrobaUsuario']+" | Followers "+str(val['followers'])+" | Favs "+str(val['favorite'])+" | Retweets "+str(val['retweet'])+" | Fecha "+str(val['fechaCreacionColombia'])+" | Tweet "+val['texto']+" | Link "+link  
                 D.actualizarTwitter(val['idText'],val['enviado'])
                 #mi_bot.send_message(chat_id, cadena)
                 #Se agregan eventos de teclado

@@ -1,5 +1,6 @@
 from TwitterAPI import TwitterAPI
 from datetime import datetime, date, time, timedelta
+from email.utils import parsedate_tz, mktime_tz
 from pymongo import MongoClient
 
 class Twitter:
@@ -30,30 +31,20 @@ class Twitter:
         favorite = favoritos
         cuentaInsert = contador
         fechaCreacion = fechaC
+        timestamp = mktime_tz(parsedate_tz(fechaCreacion))
+        colombia = datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
         #enviado = 'N'
         ahora = datetime.now()
         fecha2 = "%Y-%m-%d %H:%M:%S"
         fecha = ahora.strftime(fecha2)
         mensaje5a = texto.find("RT", 0, 2)
-        if mensaje5a == -1 or arrobaUsuario != 'Avianca':
-            enviado = 'N'
-        else:
-            enviado = 'S'
-        tw = {"idText":idText,"texto":texto,"idUsuario":idUsuario,"arrobaUsuario":arrobaUsuario,"followers":followers,"retweet":retweet,"favorite":favorite,"cuentaInsert":cuentaInsert,"enviado":enviado,"fechaCreacion":fechaCreacion,"fecha":fecha}         
-        collection.insert(tw)
-        print("Se imprimio la info correctamente")
-    def insertarTwitterPrueba(self, codigo, texto, codUsuario, usuario):
-        idText = codigo
-        texto = texto
-        idUsuario = codUsuario
-        arrobaUsuario = usuario
-        mensaje5a = texto.find("RT", 0, 2)
-
         if mensaje5a == -1 and arrobaUsuario != 'Avianca':
             enviado = 'N'
         else:
             enviado = 'S'
-        print(enviado)
+        tw = {"idText":idText,"texto":texto,"idUsuario":idUsuario,"arrobaUsuario":arrobaUsuario,"followers":followers,"retweet":retweet,"favorite":favorite,"cuentaInsert":cuentaInsert,"enviado":enviado,"fechaCreacion":fechaCreacion,"fechaCreacionColombia":colombia,"fecha":fecha}         
+        collection.insert(tw)
+        print("Se imprimio la info correctamente")
     def getTweet(self, codigo):
         mongo = MongoClient()
         db = mongo.callaut

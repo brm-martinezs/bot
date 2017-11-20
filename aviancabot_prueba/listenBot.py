@@ -13,7 +13,7 @@ import time
 
 #Se inicia la conexión a mongo
 connection="mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut"
-mongo = MongoClient(connection)
+mongo = MongoClient()
 
 #Se selecciona la base de datos
 db=mongo.callaut
