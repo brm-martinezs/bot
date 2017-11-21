@@ -28,8 +28,7 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
             resul = D.getUltTweets()
             for val in resul:
                 existenTw = "1"
-                link = "https://twitter.com/"+val['arrobaUsuario']+"/status/"+val['idText']
-                cadena = "idTweet:"+val['idText']+" ~|~ @"+val['arrobaUsuario']+" | Followers "+str(val['followers'])+" | Favs "+str(val['favorite'])+" | Retweets "+str(val['retweet'])+" | Fecha "+str(val['fechaCreacionColombia'])+" | Tweet "+val['texto']+" | Link "+link  
+                cadena = "idTweet:"+val['idText']+" ~|~ @"+val['arrobaUsuario']+" | Followers "+str(val['followers'])+" | Favs "+str(val['favorite'])+" | Retweets "+str(val['retweet'])+" | Fecha "+str(val['fechaCreacionColombia'])+" | Tweet "+val['texto']+" | Link "+val['link']  
                 D.actualizarTwitter(val['idText'],val['enviado'])
                 #mi_bot.send_message(chat_id, cadena)
                 #Se agregan eventos de teclado

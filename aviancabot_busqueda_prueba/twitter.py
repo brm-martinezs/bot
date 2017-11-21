@@ -17,8 +17,9 @@ class Twitter:
             if existe == 0:
                 contador = TP.getLastIdTweet()
                 contador = contador + 1
-                TP.insertarTwitter(item['id_str'], item['text'], item['user']['id_str'], item['user']['screen_name'], item['user']['followers_count'], item['retweet_count'], item['favorite_count'], item['created_at'], contador)
-    def insertarTwitter(self, codigo, texto, codUsuario, usuario, seguidores, rtweet, favoritos, fechaC, contador):
+                link = "https://twitter.com/"+item['user']['id_str']+"/status/"+item['id_str']
+                TP.insertarTwitter(item['id_str'], item['text'], item['user']['id_str'], item['user']['screen_name'], item['user']['followers_count'], item['retweet_count'], item['favorite_count'], item['created_at'], contador, link)
+    def insertarTwitter(self, codigo, texto, codUsuario, usuario, seguidores, rtweet, favoritos, fechaC, contador, link):
         mongo = MongoClient()
         db = mongo.callaut
         collection = db.twitterBusqueda
@@ -30,6 +31,7 @@ class Twitter:
         retweet = rtweet
         favorite = favoritos
         cuentaInsert = contador
+        link = link
         fechaCreacion = fechaC
         timestamp = mktime_tz(parsedate_tz(fechaCreacion))
         colombia = datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
@@ -42,7 +44,7 @@ class Twitter:
             enviado = 'N'
         else:
             enviado = 'S'
-        tw = {"idText":idText,"texto":texto,"idUsuario":idUsuario,"arrobaUsuario":arrobaUsuario,"followers":followers,"retweet":retweet,"favorite":favorite,"cuentaInsert":cuentaInsert,"enviado":enviado,"fechaCreacion":fechaCreacion,"fechaCreacionColombia":colombia,"fecha":fecha}         
+        tw = {"idText":idText,"texto":texto,"idUsuario":idUsuario,"arrobaUsuario":arrobaUsuario,"followers":followers,"retweet":retweet,"favorite":favorite,"cuentaInsert":cuentaInsert,"enviado":enviado,"fechaCreacion":fechaCreacion,"fechaCreacionColombia":colombia,"fecha":fecha,"link":link}         
         collection.insert(tw)
         print("Se imprimio la info correctamente")
     def getTweet(self, codigo):
