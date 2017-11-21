@@ -17,7 +17,7 @@ class Twitter:
             if existe == 0:
                 contador = TP.getLastIdTweet()
                 contador = contador + 1
-                link = "https://twitter.com/"+item['user']['id_str']+"/status/"+item['id_str']
+                link = "https://twitter.com/"+item['user']['screen_name']+"/status/"+item['id_str']
                 TP.insertarTwitter(item['id_str'], item['text'], item['user']['id_str'], item['user']['screen_name'], item['user']['followers_count'], item['retweet_count'], item['favorite_count'], item['created_at'], contador, link)
     def insertarTwitter(self, codigo, texto, codUsuario, usuario, seguidores, rtweet, favoritos, fechaC, contador, link):
         mongo = MongoClient()

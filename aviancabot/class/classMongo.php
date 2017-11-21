@@ -33,8 +33,10 @@ class AlertMongo{
             "cuentaInsert" => $campos['cuentaInsert'],
             "enviado" => 'N',
             "fechaCreacion" => $campos['fechaText'],
+            "fechaCreacionColombia" => $campos['fechaTextCol'],
             "fecha" => new \MongoDB\BSON\UTCDateTime(),
-            "fechaEnvio" => ''
+            "fechaEnvio" => '',
+            "link" => (string)$campos['link']
             ]);
             $result = $mongo->executeBulkWrite('callaut.tweet', $bulk);
             if ($result->getInsertedCount() >= 1) {

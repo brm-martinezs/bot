@@ -63,14 +63,21 @@ $guardaT= array();
 $conteoTW=count($responseJ->statuses);
 $tweet=$responseJ->statuses;
 for($i=0; $i<$conteoTW;$i++){
+
+    date_default_timezone_set('America/Bogota');
+    $dateColombia = date('d-m-Y H:i:s', strtotime($tweet[$i]->created_at));
+
+    $link = "https://twitter.com/".$tweet[$i]->user->screen_name."/status/".$tweet[$i]->id_str;
     $campos['textoTw']=$tweet[$i]->text;
     $campos['idText']=$tweet[$i]->id_str;
     $campos['fechaText']=$tweet[$i]->created_at;
+    $campos['fechaTextCol']=$dateColombia;
     $campos['idTw']=$tweet[$i]->user->id_str;
     $campos['arroa']=$tweet[$i]->user->screen_name;
     $campos['followers']=$tweet[$i]->user->followers_count;
     $campos['retweet']=$tweet[$i]->retweet_count;
     $campos['favorite']=$tweet[$i]->favorite_count;
+    $campos['link']=$link;
     $traeTweet=$alertMongo->getTweet($campos['idText']);
     if(empty($traeTweet)){
         $campos['cuentaInsert']=$contador;
