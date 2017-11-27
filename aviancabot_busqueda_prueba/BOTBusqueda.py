@@ -20,6 +20,7 @@ mi_bot = telebot.TeleBot(TOKEN) #Creamos nuestra instancia "mi_bot" a partir de 
 def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
     for m in mensajes:
         chat_id = m.chat.id
+        #user_report = m.from_user.username
         if m.content_type == 'text':
             text = m.text
             D = Twitter()
@@ -54,15 +55,18 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
                     if call.data=='naranja':
                         msjAlertId=call.message.message_id
                         msjAlertText=call.message.text
+                        user_nombre=call.from_user.first_name
+                        user_apellido=call.from_user.last_name
+                        user_report=user_nombre+" "+user_apellido
                         tweet=msjAlertText.split(' ~|~ ')
                         idTweeet=tweet[0]
                         idTweetsrt=str(idTweeet)
                         idTweetN=idTweetsrt.split(':')
                         textTweet=tweet[1]
                         reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'naranja','fecha': datetime.now()})
-                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
-                        mi_bot.send_message('-277422259',sendTexto)
-                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como naranja")
+                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)+" Usuario reporto: "+str(user_report)
+                        mi_bot.send_message('-255372512',sendTexto)
+                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como naranja")
                     elif call.data=='amarilla':
                         msjAlertId=call.message.message_id
                         msjAlertText=call.message.text
@@ -73,8 +77,8 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
                         textTweet=tweet[1]
                         reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'amarilla','fecha': datetime.now()})
                         sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
-                        mi_bot.send_message('-277422259',sendTexto)
-                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como amarilla")
+                        mi_bot.send_message('-255372512',sendTexto)
+                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como amarilla")
                     elif call.data=='azul':
                         msjAlertId=call.message.message_id
                         msjAlertText=call.message.text
@@ -85,8 +89,8 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
                         textTweet=tweet[1]
                         reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'azul','fecha': datetime.now()})
                         sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
-                        mi_bot.send_message('-277422259',sendTexto)
-                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como azul")
+                        mi_bot.send_message('-255372512',sendTexto)
+                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como azul")
                     elif call.data=='verde':
                         msjAlertId=call.message.message_id
                         msjAlertText=call.message.text
@@ -97,8 +101,8 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
                         textTweet=tweet[1]
                         reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'verde','fecha': datetime.now()})
                         sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
-                        mi_bot.send_message('-277422259',sendTexto)
-                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como verde")
+                        mi_bot.send_message('-255372512',sendTexto)
+                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como verde")
                     elif call.data=='morada':
                         msjAlertId=call.message.message_id
                         msjAlertText=call.message.text
@@ -109,8 +113,8 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
                         textTweet=tweet[1]
                         reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'morada','fecha': datetime.now()})
                         sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
-                        mi_bot.send_message('-277422259',sendTexto)
-                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como morada")
+                        mi_bot.send_message('-255372512',sendTexto)
+                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como morada")
                     else:
                         msjAlertId=call.message.message_id
                         msjAlertText=call.message.text
@@ -121,8 +125,8 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
                         textTweet=tweet[1]
                         reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'naranja','fecha': datetime.now()})
                         sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
-                        mi_bot.send_message('-277422259',sendTexto)
-                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como naranja")
+                        mi_bot.send_message('-255372512',sendTexto)
+                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como naranja")
             if existenTw == "0":
                 mi_bot.send_message(chat_id,"No se han encontrado Tweets con la palabra "+ text)
                             
