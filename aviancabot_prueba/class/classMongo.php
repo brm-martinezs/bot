@@ -46,6 +46,32 @@ class AlertMongo{
             }
         
     }
+
+
+
+    // Get tweet into collection
+    function excel($desde,$hasta) {
+        //printVar($idStr);
+        $mongo = new MongoDB\Driver\Manager();
+  //      $filter = [ 'tipoAlerta' => 'amarilla'];      
+        $a = new \MongoDB\BSON\UTCDateTime(strtotime($desde." 00:00:00") * 1000);
+        $b = new \MongoDB\BSON\UTCDateTime(strtotime($hasta." 23:59:59") * 1000);
+
+        $filter = [ 'fecha' => ['$gte' => $a,'$lte' => $b]];
+
+        $query = new MongoDB\Driver\Query($filter, []);
+        $cursor = $mongo->executeQuery('callaut.report_tweet', $query);
+        $posts = [];
+        foreach ($cursor as $document) {
+            //printVar($document);
+            //die();
+            array_push($posts, json_decode(MongoDB\BSON\toJSON(MongoDB\BSON\fromPHP($document))));
+            
+        }
+        return $posts;
+        
+    }
+
     // Get tweet into collection
     function getTweet($idStr) {
         //printVar($idStr);
