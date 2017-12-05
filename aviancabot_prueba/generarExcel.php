@@ -116,6 +116,8 @@ $datos = $Excel->excel($from,$to);
 	
 		$excel->finalize();
 
+	}else{
+		echo "Para el rango de fechas del ".$from." hasta el ".$to." no existe información.";
 	}
 //}
 

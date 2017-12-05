@@ -63,7 +63,7 @@ foreach ($almacen as $key=>$val ){
 	$esRetweet = $primerLetra.$segundaLetra;
 	if($esRetweet == 'RT'){
 	}else{
-		echo "idTweet:$val->idText ~|~ @$val->arrobaUsuario | Followers $val->followers | Favs $val->favorite | Retweets $val->retweet | Fecha $val->fechaCreacionColombia | Tweet $val->texto | Link $val->link"."°";
+		echo "idTweet:$val->idText ~|~ @$val->arrobaUsuario | Followers: $val->followers | Favs: $val->favorite | Retweets: $val->retweet | Fecha: $val->fechaCreacionColombia | Tweet: $val->texto | Link: $val->link"."°";
 	}
      
 

@@ -124,3 +124,4 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
                             
 mi_bot.set_update_listener(listener) #registrar la funcion listener
 mi_bot.polling(none_stop = True , timeout = 60)
+raw_input()

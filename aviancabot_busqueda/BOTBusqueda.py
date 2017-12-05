@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*- 
-import sys
-sys.path.append('class')
 import telebot
 from telebot import types
 from twitter import *
 from pymongo import MongoClient
+from datetime import datetime, date, time, timedelta
 
 #Se inicia la conexión a mongo
 connection="mongodb://brm2_us3r4pp:JLGhYDdMXIrI8y3n@127.0.0.1/callaut"
@@ -29,7 +28,7 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
             resul = D.getUltTweets()
             for val in resul:
                 existenTw = "1"
-                cadena = "idTweet:"+val['idText']+" ~|~ @"+val['arrobaUsuario']+" | Followers "+str(val['followers'])+" | Favs "+str(val['favorite'])+" | Retweets "+str(val['retweet'])+" | Tweet "+val['texto'] 
+                cadena = "idTweet:"+val['idText']+" ~|~ @"+val['arrobaUsuario']+" | Followers: "+str(val['followers'])+" | Favs: "+str(val['favorite'])+" | Retweets: "+str(val['retweet'])+" | Fecha: "+str(val['fechaCreacionColombia'])+" | Tweet: "+val['texto']+" | Link: "+val['link']  
                 D.actualizarTwitter(val['idText'],val['enviado'])
                 #mi_bot.send_message(chat_id, cadena)
                 #Se agregan eventos de teclado
@@ -52,80 +51,76 @@ def listener(mensajes):  ##Cuando llega un mensaje se ejecuta esta función
 
                 @mi_bot.callback_query_handler(func=lambda call: call.data)  # Whenever the user taps the "more" button,
                 def alert_callback(call):
+
+                    msjAlertId=call.message.message_id
+                    msjAlertText=call.message.text
+                    tweet=msjAlertText.split(' ~|~ ')
+                    idTweeet=tweet[0]
+                    idTweetsrt=str(idTweeet)
+                    idTweetN=idTweetsrt.split(':')
+                    textTweet=tweet[1]
+
+                    user_nombre=call.from_user.first_name
+                    user_apellido=call.from_user.last_name
+                    user_report=user_nombre+" "+user_apellido
+                    datosTweet=str(textTweet)
+                    infoTweet=datosTweet.split(' | ')
+                    infoTweetFol = infoTweet[1]
+                    datosTweetFol=str(infoTweetFol)
+                    infoFol=datosTweetFol.split(': ')
+                    infoTweetFavs = infoTweet[2]
+                    datosTweetFavs=str(infoTweetFavs)
+                    infoFavs=datosTweetFavs.split(': ')
+                    infoTweetRet = infoTweet[3]
+                    datosTweetRet=str(infoTweetRet)
+                    infoRet=datosTweetRet.split(': ')
+                    infoTweetTex = infoTweet[5]
+                    datosTweetTex=str(infoTweetTex)
+                    infoTex=datosTweetTex.split('Tweet: ')
+                    infoTweetFec = infoTweet[4]
+                    datosTweetFec=str(infoTweetFec)
+                    infoFec=datosTweetFec.split('Fecha: ')
+                    infoTweetLink = infoTweet[6]
+                    datosTweetLink=str(infoTweetLink)
+                    infoLink=datosTweetLink.split('Link: ')
+                    
+                    ahora = datetime.now()
+                    fecha2 = "%d-%m-%Y %H:%M:%S"
+                    colombia = ahora.strftime(fecha2)
+
                     if call.data=='naranja':
-                        msjAlertId=call.message.message_id
-                        msjAlertText=call.message.text
-                        tweet=msjAlertText.split(' ~|~ ')
-                        idTweeet=tweet[0]
-                        idTweetsrt=str(idTweeet)
-                        idTweetN=idTweetsrt.split(':')
-                        textTweet=tweet[1]
-                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'naranja','fecha': datetime.now()})
-                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
+
+                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'followers':infoFol[1],'favorite':infoFavs[1],'retweet':infoRet[1],'tweet':str(infoTex[1]),'usuario':str(infoTweet[0]),'fechaTweet':str(infoFec[1]),'link':str(infoLink[1]),'tipoAlerta':'naranja','UserReport':str(user_report),'fecha': datetime.now(),'fechaCol': colombia})
+                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)+" Usuario reporto: "+str(user_report)
                         mi_bot.send_message('-228603616',sendTexto)
-                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como naranja")
+                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como naranja")
                     elif call.data=='amarilla':
-                        msjAlertId=call.message.message_id
-                        msjAlertText=call.message.text
-                        tweet=msjAlertText.split(' ~|~ ')
-                        idTweeet=tweet[0]
-                        idTweetsrt=str(idTweeet)
-                        idTweetN=idTweetsrt.split(':')
-                        textTweet=tweet[1]
-                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'amarilla','fecha': datetime.now()})
-                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
+
+                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'followers':infoFol[1],'favorite':infoFavs[1],'retweet':infoRet[1],'tweet':str(infoTex[1]),'usuario':str(infoTweet[0]),'fechaTweet':str(infoFec[1]),'link':str(infoLink[1]),'tipoAlerta':'amarilla','UserReport':str(user_report),'fecha': datetime.now(),'fechaCol': colombia})
+                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)+" Usuario reporto: "+str(user_report)
                         mi_bot.send_message('-199957072',sendTexto)
-                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como amarilla")
+                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como amarilla")
                     elif call.data=='azul':
-                        msjAlertId=call.message.message_id
-                        msjAlertText=call.message.text
-                        tweet=msjAlertText.split(' ~|~ ')
-                        idTweeet=tweet[0]
-                        idTweetsrt=str(idTweeet)
-                        idTweetN=idTweetsrt.split(':')
-                        textTweet=tweet[1]
-                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'azul','fecha': datetime.now()})
-                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
+                        
+                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'followers':infoFol[1],'favorite':infoFavs[1],'retweet':infoRet[1],'tweet':str(infoTex[1]),'usuario':str(infoTweet[0]),'fechaTweet':str(infoFec[1]),'link':str(infoLink[1]),'tipoAlerta':'azul','UserReport':str(user_report),'fecha': datetime.now(),'fechaCol': colombia})
+                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)+" Usuario reporto: "+str(user_report)
                         mi_bot.send_message('-187033923',sendTexto)
-                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como azul")
+                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como azul")
                     elif call.data=='verde':
-                        msjAlertId=call.message.message_id
-                        msjAlertText=call.message.text
-                        tweet=msjAlertText.split(' ~|~ ')
-                        idTweeet=tweet[0]
-                        idTweetsrt=str(idTweeet)
-                        idTweetN=idTweetsrt.split(':')
-                        textTweet=tweet[1]
-                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'verde','fecha': datetime.now()})
-                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
+                        
+                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'followers':infoFol[1],'favorite':infoFavs[1],'retweet':infoRet[1],'tweet':str(infoTex[1]),'usuario':str(infoTweet[0]),'fechaTweet':str(infoFec[1]),'link':str(infoLink[1]),'tipoAlerta':'verde','UserReport':str(user_report),'fecha': datetime.now(),'fechaCol': colombia})
+                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)+" Usuario reporto: "+str(user_report)
                         mi_bot.send_message('-245382751',sendTexto)
-                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como verde")
-                    elif call.data=='morada':
-                        msjAlertId=call.message.message_id
-                        msjAlertText=call.message.text
-                        tweet=msjAlertText.split(' ~|~ ')
-                        idTweeet=tweet[0]
-                        idTweetsrt=str(idTweeet)
-                        idTweetN=idTweetsrt.split(':')
-                        textTweet=tweet[1]
-                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'morada','fecha': datetime.now()})
-                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
-                        mi_bot.send_message('-233757293',sendTexto)
-                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como morada")
+                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como verde")
                     else:
-                        msjAlertId=call.message.message_id
-                        msjAlertText=call.message.text
-                        tweet=msjAlertText.split(' ~|~ ')
-                        idTweeet=tweet[0]
-                        idTweetsrt=str(idTweeet)
-                        idTweetN=idTweetsrt.split(':')
-                        textTweet=tweet[1]
-                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'texto':textTweet,'tipoAlerta':'naranja','fecha': datetime.now()})
-                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)
+
+                        reportT.insert_one({'idMensaje':msjAlertId,'idTweeet':idTweetN[1],'followers':infoFol[1],'favorite':infoFavs[1],'retweet':infoRet[1],'tweet':str(infoTex[1]),'usuario':str(infoTweet[0]),'fechaTweet':str(infoFec[1]),'link':str(infoLink[1]),'tipoAlerta':'morada','UserReport':str(user_report),'fecha': datetime.now(),'fechaCol': colombia})
+                        sendTexto="Mensaje ID "+str(msjAlertId)+" Texto: "+str(textTweet)+" "+str(idTweeet)+" Usuario reporto: "+str(user_report)
                         mi_bot.send_message('-228603616',sendTexto)
-                        mi_bot.send_message(chat_id,"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como naranja")
+                        mi_bot.send_message('-277422259',"el Tweet("+textTweet[:80]+"...)Se reportó el tweet como naranja")
             if existenTw == "0":
                 mi_bot.send_message(chat_id,"No se han encontrado Tweets con la palabra "+ text)
                             
 mi_bot.set_update_listener(listener) #registrar la funcion listener
-mi_bot.polling()
+mi_bot.polling(none_stop = True , timeout = 60)
+raw_input()
