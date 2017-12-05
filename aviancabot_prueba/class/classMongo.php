@@ -54,8 +54,8 @@ class AlertMongo{
         //printVar($idStr);
         $mongo = new MongoDB\Driver\Manager();
   //      $filter = [ 'tipoAlerta' => 'amarilla'];      
-        $a = new \MongoDB\BSON\UTCDateTime(strtotime($desde." 00:00:00") * 1000);
-        $b = new \MongoDB\BSON\UTCDateTime(strtotime($hasta." 23:59:59") * 1000);
+        $a = new MongoDB\BSON\UTCDateTime(strtotime($desde." 00:00:00") * 1000);
+        $b = new MongoDB\BSON\UTCDateTime(strtotime($hasta." 23:59:59") * 1000);
 
         $filter = [ 'fecha' => ['$gte' => $a,'$lte' => $b]];
 
